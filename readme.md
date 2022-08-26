@@ -3,10 +3,8 @@ __The plugin is in alpha state__
 __Only available on bitcoin testnet3__
 
 # description
-c-neurino is the c-lightning bitcoin backend plugin depends on LND neutrino mode.
-
-## about
-c-lightning can be used without bitcoin core.
+c-neurino is the c-lightning bitcoin backend plugin depends on LND neutrino mode.  
+c-lightning can be used without bitcoin core.  
 Neutrino is bitcoin's light client to protect privacy and minimize overhead.
 
 ## build
@@ -16,7 +14,7 @@ env GOOS=linux GOARCH=amd64 go build
 ```
 ## Run
 * Disable `bcli`, the default bitcoin backend
-* Launch LND in neutrino mode (RPC must be enabled)
+* Launch LND(`v0.15.1-branch-rc1` or upper) in neutrino mode (RPC must be enabled)
 * Register c-neutrino as a plugin
 
 
