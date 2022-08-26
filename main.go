@@ -32,7 +32,7 @@ func main() {
 
 	plugin.RegisterNewOption("tls-cert-path", "tls cert path", "/tls.cert")
 	plugin.RegisterNewOption("macaroon-path", "macaroon path", "/admin.macaroon")
-	plugin.RegisterNewOption("grpc-dial", "gRPC port", "host.docker.internal:10009")
+	plugin.RegisterNewOption("grpc-dial", "gRPC port", "localhost:10009")
 
 	err := plugin.Start(os.Stdin, os.Stdout)
 	if err != nil {
