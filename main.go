@@ -73,7 +73,7 @@ func GetUtxOut(txid string, vout uint32) (string, string, error) {
 	}
 	for _, t := range tnds.GetUtxos() {
 		log.Println(t)
-		if int64(t.Outpoint.OutputIndex) == int64(vout) {
+		if t.Outpoint.GetTxidStr() == txid && int64(t.Outpoint.OutputIndex) == int64(vout) {
 			retout = t
 		}
 	}
