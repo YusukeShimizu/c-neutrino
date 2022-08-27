@@ -93,6 +93,21 @@ func GetChainInfo() (*glightning.Btc_ChainInfo, error) {
 	if err != nil {
 		return nil, err
 	}
+	chain := ""
+	for _, c := range i.GetChains() {
+		if c.GetChain() == "bitcoin" {
+			if c.GetNetwork() == "regtest" {
+				chain = "regtest"
+			} else if c.GetNetwork() == "testnet" {
+				chain = "test"
+			} else if c.GetNetwork() == "mainnet" {
+				chain = "bitcoin"
+			}
+		}
+	}
+	if chain == "" {
+		log.Fatal("chain is not bitcoin")
+	}
 	return &glightning.Btc_ChainInfo{
 		Chain:                "test",
 		HeaderCount:          i.GetBlockHeight(),

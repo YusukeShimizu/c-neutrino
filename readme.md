@@ -1,6 +1,6 @@
 # Warning
 __The plugin is in alpha state__  
-__Only available on bitcoin testnet3__
+__Only tested on bitcoin testnet3__
 
 # description
 c-neurino is the c-lightning bitcoin backend plugin depends on LND neutrino mode.  
