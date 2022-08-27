@@ -58,27 +58,19 @@ func onInit(plugin *glightning.Plugin, options map[string]glightning.Option, con
 	if err != nil {
 		log.Printf("error returned: %s", err)
 	}
-	log.Printf(i.BlockHash)
+	log.Printf("The node alias is %s:", i.GetAlias())
 	log.Printf("successfully init'd! %s %s\n", config.LightningDir, config.RpcFile)
 }
 
 func GetUtxOut(txid string, vout uint32) (string, string, error) {
 	log.Printf("called getutxo")
-	log.Println("txid:", txid, "vout", vout)
 	var retout *lnrpc.Utxo
 	tnds, err := neutrinoC.LightningClient.ListUnspent(context.Background(), &lnrpc.ListUnspentRequest{})
 	if err != nil {
 		log.Printf("error returned: %s", err)
 		return "", "", err
 	}
-	if tnds.GetUtxos() == nil {
-		return "", "", nil
-	}
 	for _, t := range tnds.GetUtxos() {
-		log.Println(t)
-		if t.GetOutpoint() == nil {
-			continue
-		}
 		if t.GetOutpoint().GetTxidStr() == txid && int64(t.GetOutpoint().GetOutputIndex()) == int64(vout) {
 			retout = t
 		}
@@ -97,12 +89,10 @@ func GetChainInfo() (*glightning.Btc_ChainInfo, error) {
 	log.Printf("called getchaininfo")
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*3)
 	defer cancel()
-	log.Println(neutrinoC)
 	i, err := neutrinoC.LightningClient.GetInfo(ctx, &lnrpc.GetInfoRequest{})
 	if err != nil {
 		return nil, err
 	}
-
 	return &glightning.Btc_ChainInfo{
 		Chain:                "test",
 		HeaderCount:          i.GetBlockHeight(),
@@ -115,12 +105,10 @@ func GetFeeRate(blocks uint32, mode string) (uint64, error) {
 	log.Printf("called getfeerate %d %s", blocks, mode)
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*3)
 	defer cancel()
-
 	f, err := neutrinoC.LightningClient.EstimateFee(ctx, &lnrpc.EstimateFeeRequest{})
 	if err != nil {
 		return 0, err
 	}
-
 	// feerate's response must be denominated in satoshi per kilo-vbyte
 	return uint64(f.GetFeeSat()), nil
 }
@@ -146,6 +134,7 @@ func EstimateFees() (*glightning.Btc_EstimatedFees, error) {
 }
 
 func SendRawTx(tx string) error {
+	log.Printf("called SendRawTx")
 	b, err := hex.DecodeString(tx)
 	if err != nil {
 		log.Fatal(err)
