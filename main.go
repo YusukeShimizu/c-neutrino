@@ -50,13 +50,13 @@ func onInit(plugin *glightning.Plugin, options map[string]glightning.Option, con
 	// default startup
 	neutrinoC, err = neutrino.NewNeutrino(tlsCertPath, macaroonPath, grpcDial)
 	if err != nil {
-		log.Printf(err.Error())
+		log.Fatal(err)
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*3)
 	defer cancel()
 	i, err := neutrinoC.LightningClient.GetInfo(ctx, &lnrpc.GetInfoRequest{})
 	if err != nil {
-		log.Printf("error returned: %s", err)
+		log.Fatal(err)
 	}
 	log.Printf("The node alias is %s:", i.GetAlias())
 	log.Printf("successfully init'd! %s %s\n", config.LightningDir, config.RpcFile)
