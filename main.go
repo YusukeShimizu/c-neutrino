@@ -109,7 +109,7 @@ func GetChainInfo() (*glightning.Btc_ChainInfo, error) {
 		log.Fatal("chain is not bitcoin")
 	}
 	return &glightning.Btc_ChainInfo{
-		Chain:                "test",
+		Chain:                chain,
 		HeaderCount:          i.GetBlockHeight(),
 		BlockCount:           i.GetBlockHeight(),
 		InitialBlockDownload: false,
